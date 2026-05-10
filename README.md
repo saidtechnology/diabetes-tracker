@@ -1,8 +1,41 @@
-# Diabetes Tracker
+<div align="center">
+  <h1>🩸 Diabetes Tracker</h1>
+  <p>
+    <a href="https://diabetes-tracker-saidtechnology.vercel.app">
+      <img src="https://img.shields.io/badge/Live%20Demo-Vercel-000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo">
+    </a>
+    <a href="https://github.com/saidtechnology/diabetes-tracker">
+      <img src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+    </a>
+    <a href="https://nextjs.org">
+      <img src="https://img.shields.io/badge/Next.js%2016-000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js 16">
+    </a>
+    <a href="https://www.typescriptlang.org">
+      <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+    </a>
+  </p>
+  <p>
+    <img src="https://img.shields.io/badge/Status-Active-22c55e?style=flat-square" alt="Status">
+    <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL">
+    <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white" alt="Prisma">
+    <img src="https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS v4">
+  </p>
+</div>
 
-> A full-stack Type 2 diabetes tracker app — patients log glucose readings (manual + OCR), doctors link via a 6-character code, with multi-language support (Arabic, French, English) and consecutive danger alerts.
+A full-stack Type 2 diabetes tracker app — patients log glucose readings (manual + OCR), doctors link via a 6-character code, with multi-language support (Arabic, French, English) and consecutive danger alerts.
 
 **Owner:** Said Ouarrak — [saidx5@gmail.com](mailto:saidx5@gmail.com)
+
+---
+
+## 🚀 Live Demo
+
+| | |
+|---|---|
+| **URL** | [https://diabetes-tracker-saidtechnology.vercel.app](https://diabetes-tracker-saidtechnology.vercel.app) |
+| **Doctor** | `doctor@example.com` / `password123` |
+| **Patient** | `patient@example.com` / `password123` |
+| **Doctor Code** | `ABC123` |
 
 ---
 
