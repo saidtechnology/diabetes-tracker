@@ -2,7 +2,7 @@
 
 > A full-stack Type 2 diabetes tracker app — patients log glucose readings (manual + OCR), doctors link via a 6-character code, with multi-language support (Arabic, French, English) and consecutive danger alerts.
 
-**Owner:** Said Ouarrak — [saidtechnology@gmail.com](mailto:saidtechnology@gmail.com)
+**Owner:** Said Ouarrak — [saidx5@gmail.com](mailto:saidx5@gmail.com)
 
 ---
 
