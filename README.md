@@ -14,7 +14,8 @@
 - **Dashboard** — view today's readings count and 20-reading glucose trend chart
 - **Link to doctor** — enter a 6-character doctor code to share your readings
 - **Multi-language** — switch between English, Arabic (RTL), and French
-- **Phone verification** — 6-digit OTP via SMS (Twilio, with mock fallback)
+- **Email verification** — verify account via email (free, Resend mock fallback)
+- **Phone OTP verification** — 6-digit OTP via SMS (Twilio or Firebase free tier)
 
 ### For Doctors
 - **Doctor code** — generate a unique 6-character code to give to patients
@@ -44,9 +45,10 @@
 | Styling | Tailwind CSS v4 |
 | OCR | Tesseract.js v7 |
 | Charts | Recharts v3 |
-| SMS | Twilio v6 (mock fallback) |
-| Email | Resend v6 (mock fallback) |
-| i18n | Custom React Context (ar/fr/en) |
+| SMS | Twilio v6 / Firebase Auth (free tier, mock fallback) |
+| Email | Resend v6 (free tier, mock fallback) |
+| Phone/Email Verify | Email token OR Phone OTP (Twilio/Firebase) — user choice |
+| i18n | Custom React Context + Server i18n (ar/fr/en) |
 | Bundler | Webpack |
 
 ---
@@ -208,6 +210,52 @@ OCR parse a meter photo.
 | TWILIO_AUTH_TOKEN | No | - | Twilio auth token |
 | TWILIO_PHONE_NUMBER | No | - | Twilio sender number |
 | RESEND_API_KEY | No | - | Resend email (mock if empty) |
+| NEXT_PUBLIC_FIREBASE_* | No | - | Firebase config for phone OTP (optional) |
+| FIREBASE_SERVICE_ACCOUNT | No | - | Firebase Admin JSON for token verification |
+
+---
+
+## Firebase Setup (Free Phone OTP)
+
+Firebase provides free phone verification (OTP via SMS) as an alternative to Twilio.
+
+### Step 1: Create a Firebase project
+1. Go to [Firebase Console](https://console.firebase.google.com)
+2. Click **Add project** and follow the setup
+3. Once created, click the **Web** icon (`</>`) to register a web app
+
+### Step 2: Enable Phone Authentication
+1. In Firebase Console, go to **Authentication** → **Sign-in method**
+2. Enable **Phone** provider
+3. Configure the test phone numbers if needed
+
+### Step 3: Get your Firebase config
+1. In **Project Settings** → **General** → **Your apps**, find your web app's config
+2. Copy the `firebaseConfig` values to your `.env`:
+   ```
+   NEXT_PUBLIC_FIREBASE_API_KEY=AIza...
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=123456789
+   NEXT_PUBLIC_FIREBASE_APP_ID=1:123456789:web:abc123
+   ```
+
+### Step 4: Generate a Service Account key (Admin SDK)
+1. Go to **Project Settings** → **Service accounts**
+2. Click **Generate new private key**
+3. Copy the entire JSON (minified) to this env var:
+   ```
+   FIREBASE_SERVICE_ACCOUNT={"type":"service_account",...}
+   ```
+   > For security, use a single line (minified JSON with no spaces outside strings).
+
+### How it works
+- When Firebase is configured, the verify page shows a **"Send OTP (Firebase)"** button
+- Firebase sends the SMS directly (no Twilio needed)
+- The user enters the OTP and Firebase confirms it
+- Our backend verifies the Firebase ID token and activates the account
+- If Firebase is not configured, the app falls back to Twilio/mock
 
 ---
 

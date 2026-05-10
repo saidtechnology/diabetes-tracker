@@ -3,11 +3,13 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { getGlucoseColor } from "@/lib/constants";
+import { createServerT } from "@/lib/server-i18n";
 
 export default async function PatientsPage() {
   const session = await getServerSession(authOptions);
   const su = session?.user as unknown as { id: string; role: string } | undefined;
   if (!session || su?.role !== "DOCTOR") redirect("/login");
+  const t = await createServerT();
 
   const links = await prisma.patientDoctorLink.findMany({
     where: { doctorId: su.id },
@@ -16,13 +18,13 @@ export default async function PatientsPage() {
   });
 
   if (links.length === 0) return (
-    <div className="max-w-4xl mx-auto p-6"><h1 className="text-2xl font-bold mb-4">My Patients</h1><p className="text-gray-400">No patients linked yet.</p>
-      <a href="/dashboard" className="text-blue-600 text-sm hover:underline mt-2 inline-block">Back to Dashboard</a></div>
+    <div className="max-w-4xl mx-auto p-6"><h1 className="text-2xl font-bold mb-4">{t("doctor.myPatients")}</h1><p className="text-gray-400">{t("doctor.noPatients")}</p>
+      <a href="/dashboard" className="text-blue-600 text-sm hover:underline mt-2 inline-block">{t("doctor.backToDashboard")}</a></div>
   );
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-4">
-      <h1 className="text-2xl font-bold">My Patients</h1>
+      <h1 className="text-2xl font-bold">{t("doctor.myPatients")}</h1>
       <div className="space-y-3">
         {links.map((link: { id: string; patient: { id: string; firstName: string; lastName: string; glucoseReadings: { value: number; measuredAt: Date }[] }; linkedAt: Date }) => {
           const last = link.patient.glucoseReadings[0];
@@ -36,7 +38,7 @@ export default async function PatientsPage() {
           );
         })}
       </div>
-      <a href="/dashboard" className="text-blue-600 text-sm hover:underline inline-block">Back to Dashboard</a>
+      <a href="/dashboard" className="text-blue-600 text-sm hover:underline inline-block">{t("doctor.backToDashboard")}</a>
     </div>
   );
 }

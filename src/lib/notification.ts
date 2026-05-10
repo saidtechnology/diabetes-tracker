@@ -50,4 +50,13 @@ export const email = {
       text: `Your patient has consecutive dangerously high readings.\n\n${details}\n\nCheck your dashboard immediately.`,
     });
   },
+  sendVerificationEmail: async (to: string, token: string) => {
+    const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+    const link = `${baseUrl}/verify?email=${encodeURIComponent(to)}&method=email&token=${token}`;
+    await getProvider().send({
+      to,
+      subject: "Verify your email - Diabetes Tracker",
+      text: `Click the link to verify your email: ${link}\n\nThis link expires in 10 minutes.`,
+    });
+  },
 };

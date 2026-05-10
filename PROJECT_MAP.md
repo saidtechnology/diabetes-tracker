@@ -11,9 +11,10 @@
 - **Styling:** Tailwind CSS v4
 - **OCR:** Tesseract.js v7
 - **Charts:** Recharts v3
-- **SMS:** Twilio v6 (mock fallback)
-- **Email:** Resend v6 (mock fallback)
-- **i18n:** Custom React Context (ar/fr/en)
+- **SMS:** Twilio v6 / Firebase Auth (free tier, mock fallback)
+- **Email:** Resend v6 (free tier, mock fallback)
+- **i18n:** Custom React Context + Server i18n (ar/fr/en)
+- **Firebase:** Firebase Client SDK + Firebase Admin SDK
 - **Container:** Docker Compose (PostgreSQL)
 
 ## Directory Structure
@@ -49,7 +50,9 @@ diabetes-tracker/
 │   │   │   │   ├── [...nextauth]/  # Next-Auth handler
 │   │   │   │   ├── register/
 │   │   │   │   ├── send-otp/
-│   │   │   │   └── verify-phone/
+│   │   │   │   ├── verify-phone/
+│   │   │   │   ├── verify-email-token/ # Email verification link
+│   │   │   │   └── firebase-verify/   # Firebase phone verification
 │   │   │   ├── doctor/code/  # Doctor code generation
 │   │   │   ├── measurements/ # Glucose CRUD
 │   │   │   └── ocr/parse/   # OCR image processing
@@ -65,12 +68,15 @@ diabetes-tracker/
 │   ├── generated/prisma/     # Prisma generated client
 │   ├── lib/
 │   │   ├── auth.ts           # Next-Auth config
-│   │   ├── auth-utils.ts     # bcrypt, OTP, code generation
+│   │   ├── auth-utils.ts     # bcrypt, OTP, code generation, email tokens
 │   │   ├── constants.ts      # Thresholds, configs
 │   │   ├── db.ts             # PrismaClient singleton
-│   │   ├── i18n.tsx          # Internationalization context
+│   │   ├── firebase.ts       # Firebase client SDK config
+│   │   ├── firebase-admin.ts # Firebase Admin SDK (verify tokens)
+│   │   ├── i18n.tsx          # Client-side internationalization context
+│   │   ├── server-i18n.ts    # Server-side i18n (reads cookie)
 │   │   ├── logger.ts         # Structured JSON logger
-│   │   ├── notification.ts   # Email (Resend/mock)
+│   │   ├── notification.ts   # Email (Resend/mock) + verification emails
 │   │   ├── sms.ts            # SMS (Twilio/mock)
 │   │   └── utils.ts          # Shared utilities
 │   └── middleware.ts         # Route protection middleware
@@ -151,18 +157,23 @@ diabetes-tracker/
 |-------|--------|------|-------------|
 | /api/auth/[...nextauth] | * | No | Next-Auth handler |
 | /api/auth/register | POST | No | Create account → sends OTP |
-| /api/auth/send-otp | POST | No | Resend verification OTP |
+| /api/auth/send-otp | POST | No | Resend verification OTP or email |
 | /api/auth/verify-phone | POST | No | Verify phone with OTP |
+| /api/auth/verify-email-token | POST | No | Verify email with token from link |
+| /api/auth/firebase-verify | POST | No | Verify Firebase phone ID token |
 | /api/doctor/code | POST | Doctor | Generate new doctor code |
 | /api/measurements | GET | Yes | Get readings (patient=own, doctor=by patientId) |
 | /api/measurements | POST | Patient | Save glucose reading |
 | /api/ocr/parse | POST | Patient | OCR parse meter photo |
 
 ## Auth Flow
-1. Register → OTP sent via SMS → Verify phone → Set phoneVerified=true
-2. Login only if phoneVerified=true
-3. Next-Auth JWT strategy with custom role in token
-4. Middleware protects /dashboard, /measurements, /settings, /patients
+1. Register → Choose verification method: Email or Phone (OTP)
+2. Email: Send verification link → User clicks link → Set phoneVerified=true
+3. Phone (Twilio): Send OTP via SMS → User enters OTP → Verify → Set phoneVerified=true
+4. Phone (Firebase): Firebase sends SMS → User enters OTP → Firebase confirms → Backend verifies ID token → Set phoneVerified=true
+5. Login only if phoneVerified=true
+6. Next-Auth JWT strategy with custom role in token
+7. Middleware protects /dashboard, /measurements, /settings, /patients
 
 ## Danger Alert System
 - 3 consecutive readings >250 mg/dL within 24h window
@@ -170,8 +181,8 @@ diabetes-tracker/
 - Doctor notified only once (notified flag on PatientDoctorLink)
 
 ## Seed Accounts
-- **Doctor:** doctor@example.com / password123
-- **Patient:** patient@example.com / password123
+- **Doctor:** doctor@example.com / password123 (phoneVerified=true)
+- **Patient:** patient@example.com / password123 (phoneVerified=true)
 - **Doctor Code:** ABC123
 - Run: `npm run db:seed`
 

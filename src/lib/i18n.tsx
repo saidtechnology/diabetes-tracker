@@ -32,14 +32,23 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>("en");
   const [ready, setReady] = useState(false);
 
+  function getCookie(name: string): string | null {
+    if (typeof document === "undefined") return null;
+    return document.cookie.split("; ").find((r) => r.startsWith(`${name}=`))?.split("=")[1] ?? null;
+  }
+
   useEffect(() => {
-    const saved = typeof window !== "undefined" ? (localStorage.getItem("locale") as Locale | null) : null;
+    const saved = (typeof window !== "undefined" ? (localStorage.getItem("locale") as Locale | null) : null) || getCookie("locale") as Locale | null;
     const initial = saved || "en";
     loadMessages(initial).then(() => { setLocaleState(initial); setReady(true); });
   }, []);
 
+  function setLocaleCookie(l: Locale) {
+    if (typeof document !== "undefined") document.cookie = `locale=${l};path=/;max-age=31536000;SameSite=Lax`;
+  }
+
   const setLocale = useCallback((l: Locale) => {
-    loadMessages(l).then(() => { setLocaleState(l); if (typeof window !== "undefined") localStorage.setItem("locale", l); });
+    loadMessages(l).then(() => { setLocaleState(l); if (typeof window !== "undefined") { localStorage.setItem("locale", l); setLocaleCookie(l); } });
   }, []);
 
   const t = useCallback((key: string, vars?: Record<string, string>): string => {
