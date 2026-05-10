@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  PATIENT
+  DOCTOR
+}
+enum MealContext {
+  BEFORE_MEAL
+  AFTER_MEAL
+}
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
+enum Source {
+  MANUAL
+  OCR
+}
+
+model User {
+  id            String   @id @default(uuid())
+  firstName     String
+  lastName      String
+  address       String
+  email         String   @unique
+  phone         String   @unique
+  passwordHash  String
+  role          Role     @default(PATIENT)
+  phoneVerified Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  doctorCodes       DoctorCode[]
+  patientLinks      PatientDoctorLink[] @relation("PatientLinks")
+  doctorLinks       PatientDoctorLink[] @relation("DoctorLinks")
+  glucoseReadings   GlucoseReading[]
+  sentVerifications VerificationCode[]
+}
+
+model DoctorCode {
+  id              String   @id @default(uuid())
+  doctorId        String
+  code            String   @unique
+  isUsed          Boolean  @default(false)
+  usedByPatientId String?
+  createdAt       DateTime @default(now())
+  doctor          User     @relation(fields: [doctorId], references: [id])
+}
+
+model PatientDoctorLink {
+  id        String   @id @default(uuid())
+  patientId String
+  doctorId  String
+  notified  Boolean  @default(false)
+  linkedAt  DateTime @default(now())
+  patient   User     @relation("PatientLinks", fields: [patientId], references: [id])
+  doctor    User     @relation("DoctorLinks", fields: [doctorId], references: [id])
+}
+
+model GlucoseReading {
+  id          String      @id @default(uuid())
+  patientId   String
+  value       Float
+  measuredAt  DateTime
+  mealContext MealContext
+  mealType    MealType
+  source      Source      @default(MANUAL)
+  imageUrl    String?
+  recordedAt  DateTime    @default(now())
+  patient     User        @relation(fields: [patientId], references: [id])
+}
+
+model VerificationCode {
+  id        String   @id @default(uuid())
+  phone     String
+  code      String
+  expiresAt DateTime
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+}
