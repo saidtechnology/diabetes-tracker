@@ -16,10 +16,10 @@
  */
 
 import * as runtime from "@prisma/client/runtime/client"
-import type * as Prisma from "../models.js"
-import { type PrismaClient } from "./class.js"
+import type * as Prisma from "../models"
+import { type PrismaClient } from "./class"
 
-export type * from '../models.js'
+export type * from '../models'
 
 export type DMMF = typeof runtime.DMMF
 
@@ -388,6 +388,7 @@ export const ModelName = {
   DoctorCode: 'DoctorCode',
   PatientDoctorLink: 'PatientDoctorLink',
   GlucoseReading: 'GlucoseReading',
+  Prescription: 'Prescription',
   VerificationCode: 'VerificationCode'
 } as const
 
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "doctorCode" | "patientDoctorLink" | "glucoseReading" | "verificationCode"
+    modelProps: "user" | "doctorCode" | "patientDoctorLink" | "glucoseReading" | "prescription" | "verificationCode"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -704,6 +705,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Prescription: {
+      payload: Prisma.$PrescriptionPayload<ExtArgs>
+      fields: Prisma.PrescriptionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PrescriptionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrescriptionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PrescriptionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrescriptionPayload>
+        }
+        findFirst: {
+          args: Prisma.PrescriptionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrescriptionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PrescriptionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrescriptionPayload>
+        }
+        findMany: {
+          args: Prisma.PrescriptionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrescriptionPayload>[]
+        }
+        create: {
+          args: Prisma.PrescriptionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrescriptionPayload>
+        }
+        createMany: {
+          args: Prisma.PrescriptionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PrescriptionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrescriptionPayload>[]
+        }
+        delete: {
+          args: Prisma.PrescriptionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrescriptionPayload>
+        }
+        update: {
+          args: Prisma.PrescriptionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrescriptionPayload>
+        }
+        deleteMany: {
+          args: Prisma.PrescriptionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PrescriptionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PrescriptionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrescriptionPayload>[]
+        }
+        upsert: {
+          args: Prisma.PrescriptionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PrescriptionPayload>
+        }
+        aggregate: {
+          args: Prisma.PrescriptionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePrescription>
+        }
+        groupBy: {
+          args: Prisma.PrescriptionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PrescriptionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PrescriptionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PrescriptionCountAggregateOutputType> | number
+        }
+      }
+    }
     VerificationCode: {
       payload: Prisma.$VerificationCodePayload<ExtArgs>
       fields: Prisma.VerificationCodeFieldRefs
@@ -850,6 +925,7 @@ export const PatientDoctorLinkScalarFieldEnum = {
   id: 'id',
   patientId: 'patientId',
   doctorId: 'doctorId',
+  status: 'status',
   notified: 'notified',
   linkedAt: 'linkedAt'
 } as const
@@ -860,6 +936,7 @@ export type PatientDoctorLinkScalarFieldEnum = (typeof PatientDoctorLinkScalarFi
 export const GlucoseReadingScalarFieldEnum = {
   id: 'id',
   patientId: 'patientId',
+  readingType: 'readingType',
   value: 'value',
   measuredAt: 'measuredAt',
   mealContext: 'mealContext',
@@ -870,6 +947,18 @@ export const GlucoseReadingScalarFieldEnum = {
 } as const
 
 export type GlucoseReadingScalarFieldEnum = (typeof GlucoseReadingScalarFieldEnum)[keyof typeof GlucoseReadingScalarFieldEnum]
+
+
+export const PrescriptionScalarFieldEnum = {
+  id: 'id',
+  doctorId: 'doctorId',
+  patientId: 'patientId',
+  content: 'content',
+  createdAt: 'createdAt',
+  validUntil: 'validUntil'
+} as const
+
+export type PrescriptionScalarFieldEnum = (typeof PrescriptionScalarFieldEnum)[keyof typeof PrescriptionScalarFieldEnum]
 
 
 export const VerificationCodeScalarFieldEnum = {
@@ -961,6 +1050,34 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'LinkStatus'
+ */
+export type EnumLinkStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LinkStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'LinkStatus[]'
+ */
+export type ListEnumLinkStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LinkStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ReadingType'
+ */
+export type EnumReadingTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReadingType'>
+    
+
+
+/**
+ * Reference to a field of type 'ReadingType[]'
+ */
+export type ListEnumReadingTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReadingType[]'>
     
 
 
@@ -1147,6 +1264,7 @@ export type GlobalOmitConfig = {
   doctorCode?: Prisma.DoctorCodeOmit
   patientDoctorLink?: Prisma.PatientDoctorLinkOmit
   glucoseReading?: Prisma.GlucoseReadingOmit
+  prescription?: Prisma.PrescriptionOmit
   verificationCode?: Prisma.VerificationCodeOmit
 }
 

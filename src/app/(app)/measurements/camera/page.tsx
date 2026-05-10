@@ -29,7 +29,14 @@ export default function CameraEntryPage() {
       streamRef.current = stream;
       if (videoRef.current) videoRef.current.srcObject = stream;
       setStep("capture"); setError("");
-    } catch { setError(t("common.error")); setStep("manual"); }
+    } catch (e: unknown) {
+      if (e instanceof DOMException && (e.name === "NotAllowedError" || e.name === "PermissionDeniedError")) {
+        setError("Camera permission denied. Please allow camera access in your browser settings.");
+      } else {
+        setError(t("common.error"));
+      }
+      setStep("manual");
+    }
   }
 
   function stopCamera() {

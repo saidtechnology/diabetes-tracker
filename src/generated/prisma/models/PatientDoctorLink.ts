@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums.js"
-import type * as Prisma from "../internal/prismaNamespace.js"
+import type * as $Enums from "../enums"
+import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model PatientDoctorLink
@@ -28,6 +28,7 @@ export type PatientDoctorLinkMinAggregateOutputType = {
   id: string | null
   patientId: string | null
   doctorId: string | null
+  status: $Enums.LinkStatus | null
   notified: boolean | null
   linkedAt: Date | null
 }
@@ -36,6 +37,7 @@ export type PatientDoctorLinkMaxAggregateOutputType = {
   id: string | null
   patientId: string | null
   doctorId: string | null
+  status: $Enums.LinkStatus | null
   notified: boolean | null
   linkedAt: Date | null
 }
@@ -44,6 +46,7 @@ export type PatientDoctorLinkCountAggregateOutputType = {
   id: number
   patientId: number
   doctorId: number
+  status: number
   notified: number
   linkedAt: number
   _all: number
@@ -54,6 +57,7 @@ export type PatientDoctorLinkMinAggregateInputType = {
   id?: true
   patientId?: true
   doctorId?: true
+  status?: true
   notified?: true
   linkedAt?: true
 }
@@ -62,6 +66,7 @@ export type PatientDoctorLinkMaxAggregateInputType = {
   id?: true
   patientId?: true
   doctorId?: true
+  status?: true
   notified?: true
   linkedAt?: true
 }
@@ -70,6 +75,7 @@ export type PatientDoctorLinkCountAggregateInputType = {
   id?: true
   patientId?: true
   doctorId?: true
+  status?: true
   notified?: true
   linkedAt?: true
   _all?: true
@@ -151,6 +157,7 @@ export type PatientDoctorLinkGroupByOutputType = {
   id: string
   patientId: string
   doctorId: string
+  status: $Enums.LinkStatus
   notified: boolean
   linkedAt: Date
   _count: PatientDoctorLinkCountAggregateOutputType | null
@@ -180,6 +187,7 @@ export type PatientDoctorLinkWhereInput = {
   id?: Prisma.StringFilter<"PatientDoctorLink"> | string
   patientId?: Prisma.StringFilter<"PatientDoctorLink"> | string
   doctorId?: Prisma.StringFilter<"PatientDoctorLink"> | string
+  status?: Prisma.EnumLinkStatusFilter<"PatientDoctorLink"> | $Enums.LinkStatus
   notified?: Prisma.BoolFilter<"PatientDoctorLink"> | boolean
   linkedAt?: Prisma.DateTimeFilter<"PatientDoctorLink"> | Date | string
   patient?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -190,6 +198,7 @@ export type PatientDoctorLinkOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
   doctorId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   notified?: Prisma.SortOrder
   linkedAt?: Prisma.SortOrder
   patient?: Prisma.UserOrderByWithRelationInput
@@ -203,6 +212,7 @@ export type PatientDoctorLinkWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.PatientDoctorLinkWhereInput | Prisma.PatientDoctorLinkWhereInput[]
   patientId?: Prisma.StringFilter<"PatientDoctorLink"> | string
   doctorId?: Prisma.StringFilter<"PatientDoctorLink"> | string
+  status?: Prisma.EnumLinkStatusFilter<"PatientDoctorLink"> | $Enums.LinkStatus
   notified?: Prisma.BoolFilter<"PatientDoctorLink"> | boolean
   linkedAt?: Prisma.DateTimeFilter<"PatientDoctorLink"> | Date | string
   patient?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -213,6 +223,7 @@ export type PatientDoctorLinkOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
   doctorId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   notified?: Prisma.SortOrder
   linkedAt?: Prisma.SortOrder
   _count?: Prisma.PatientDoctorLinkCountOrderByAggregateInput
@@ -227,12 +238,14 @@ export type PatientDoctorLinkScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"PatientDoctorLink"> | string
   patientId?: Prisma.StringWithAggregatesFilter<"PatientDoctorLink"> | string
   doctorId?: Prisma.StringWithAggregatesFilter<"PatientDoctorLink"> | string
+  status?: Prisma.EnumLinkStatusWithAggregatesFilter<"PatientDoctorLink"> | $Enums.LinkStatus
   notified?: Prisma.BoolWithAggregatesFilter<"PatientDoctorLink"> | boolean
   linkedAt?: Prisma.DateTimeWithAggregatesFilter<"PatientDoctorLink"> | Date | string
 }
 
 export type PatientDoctorLinkCreateInput = {
   id?: string
+  status?: $Enums.LinkStatus
   notified?: boolean
   linkedAt?: Date | string
   patient: Prisma.UserCreateNestedOneWithoutPatientLinksInput
@@ -243,12 +256,14 @@ export type PatientDoctorLinkUncheckedCreateInput = {
   id?: string
   patientId: string
   doctorId: string
+  status?: $Enums.LinkStatus
   notified?: boolean
   linkedAt?: Date | string
 }
 
 export type PatientDoctorLinkUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumLinkStatusFieldUpdateOperationsInput | $Enums.LinkStatus
   notified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   linkedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   patient?: Prisma.UserUpdateOneRequiredWithoutPatientLinksNestedInput
@@ -259,6 +274,7 @@ export type PatientDoctorLinkUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.StringFieldUpdateOperationsInput | string
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumLinkStatusFieldUpdateOperationsInput | $Enums.LinkStatus
   notified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   linkedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -267,12 +283,14 @@ export type PatientDoctorLinkCreateManyInput = {
   id?: string
   patientId: string
   doctorId: string
+  status?: $Enums.LinkStatus
   notified?: boolean
   linkedAt?: Date | string
 }
 
 export type PatientDoctorLinkUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumLinkStatusFieldUpdateOperationsInput | $Enums.LinkStatus
   notified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   linkedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -281,6 +299,7 @@ export type PatientDoctorLinkUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.StringFieldUpdateOperationsInput | string
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumLinkStatusFieldUpdateOperationsInput | $Enums.LinkStatus
   notified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   linkedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -299,6 +318,7 @@ export type PatientDoctorLinkCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
   doctorId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   notified?: Prisma.SortOrder
   linkedAt?: Prisma.SortOrder
 }
@@ -307,6 +327,7 @@ export type PatientDoctorLinkMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
   doctorId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   notified?: Prisma.SortOrder
   linkedAt?: Prisma.SortOrder
 }
@@ -315,6 +336,7 @@ export type PatientDoctorLinkMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
   doctorId?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   notified?: Prisma.SortOrder
   linkedAt?: Prisma.SortOrder
 }
@@ -403,8 +425,13 @@ export type PatientDoctorLinkUncheckedUpdateManyWithoutDoctorNestedInput = {
   deleteMany?: Prisma.PatientDoctorLinkScalarWhereInput | Prisma.PatientDoctorLinkScalarWhereInput[]
 }
 
+export type EnumLinkStatusFieldUpdateOperationsInput = {
+  set?: $Enums.LinkStatus
+}
+
 export type PatientDoctorLinkCreateWithoutPatientInput = {
   id?: string
+  status?: $Enums.LinkStatus
   notified?: boolean
   linkedAt?: Date | string
   doctor: Prisma.UserCreateNestedOneWithoutDoctorLinksInput
@@ -413,6 +440,7 @@ export type PatientDoctorLinkCreateWithoutPatientInput = {
 export type PatientDoctorLinkUncheckedCreateWithoutPatientInput = {
   id?: string
   doctorId: string
+  status?: $Enums.LinkStatus
   notified?: boolean
   linkedAt?: Date | string
 }
@@ -429,6 +457,7 @@ export type PatientDoctorLinkCreateManyPatientInputEnvelope = {
 
 export type PatientDoctorLinkCreateWithoutDoctorInput = {
   id?: string
+  status?: $Enums.LinkStatus
   notified?: boolean
   linkedAt?: Date | string
   patient: Prisma.UserCreateNestedOneWithoutPatientLinksInput
@@ -437,6 +466,7 @@ export type PatientDoctorLinkCreateWithoutDoctorInput = {
 export type PatientDoctorLinkUncheckedCreateWithoutDoctorInput = {
   id?: string
   patientId: string
+  status?: $Enums.LinkStatus
   notified?: boolean
   linkedAt?: Date | string
 }
@@ -474,6 +504,7 @@ export type PatientDoctorLinkScalarWhereInput = {
   id?: Prisma.StringFilter<"PatientDoctorLink"> | string
   patientId?: Prisma.StringFilter<"PatientDoctorLink"> | string
   doctorId?: Prisma.StringFilter<"PatientDoctorLink"> | string
+  status?: Prisma.EnumLinkStatusFilter<"PatientDoctorLink"> | $Enums.LinkStatus
   notified?: Prisma.BoolFilter<"PatientDoctorLink"> | boolean
   linkedAt?: Prisma.DateTimeFilter<"PatientDoctorLink"> | Date | string
 }
@@ -497,6 +528,7 @@ export type PatientDoctorLinkUpdateManyWithWhereWithoutDoctorInput = {
 export type PatientDoctorLinkCreateManyPatientInput = {
   id?: string
   doctorId: string
+  status?: $Enums.LinkStatus
   notified?: boolean
   linkedAt?: Date | string
 }
@@ -504,12 +536,14 @@ export type PatientDoctorLinkCreateManyPatientInput = {
 export type PatientDoctorLinkCreateManyDoctorInput = {
   id?: string
   patientId: string
+  status?: $Enums.LinkStatus
   notified?: boolean
   linkedAt?: Date | string
 }
 
 export type PatientDoctorLinkUpdateWithoutPatientInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumLinkStatusFieldUpdateOperationsInput | $Enums.LinkStatus
   notified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   linkedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   doctor?: Prisma.UserUpdateOneRequiredWithoutDoctorLinksNestedInput
@@ -518,6 +552,7 @@ export type PatientDoctorLinkUpdateWithoutPatientInput = {
 export type PatientDoctorLinkUncheckedUpdateWithoutPatientInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumLinkStatusFieldUpdateOperationsInput | $Enums.LinkStatus
   notified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   linkedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -525,12 +560,14 @@ export type PatientDoctorLinkUncheckedUpdateWithoutPatientInput = {
 export type PatientDoctorLinkUncheckedUpdateManyWithoutPatientInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   doctorId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumLinkStatusFieldUpdateOperationsInput | $Enums.LinkStatus
   notified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   linkedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type PatientDoctorLinkUpdateWithoutDoctorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumLinkStatusFieldUpdateOperationsInput | $Enums.LinkStatus
   notified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   linkedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   patient?: Prisma.UserUpdateOneRequiredWithoutPatientLinksNestedInput
@@ -539,6 +576,7 @@ export type PatientDoctorLinkUpdateWithoutDoctorInput = {
 export type PatientDoctorLinkUncheckedUpdateWithoutDoctorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumLinkStatusFieldUpdateOperationsInput | $Enums.LinkStatus
   notified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   linkedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -546,6 +584,7 @@ export type PatientDoctorLinkUncheckedUpdateWithoutDoctorInput = {
 export type PatientDoctorLinkUncheckedUpdateManyWithoutDoctorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumLinkStatusFieldUpdateOperationsInput | $Enums.LinkStatus
   notified?: Prisma.BoolFieldUpdateOperationsInput | boolean
   linkedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -556,6 +595,7 @@ export type PatientDoctorLinkSelect<ExtArgs extends runtime.Types.Extensions.Int
   id?: boolean
   patientId?: boolean
   doctorId?: boolean
+  status?: boolean
   notified?: boolean
   linkedAt?: boolean
   patient?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -566,6 +606,7 @@ export type PatientDoctorLinkSelectCreateManyAndReturn<ExtArgs extends runtime.T
   id?: boolean
   patientId?: boolean
   doctorId?: boolean
+  status?: boolean
   notified?: boolean
   linkedAt?: boolean
   patient?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -576,6 +617,7 @@ export type PatientDoctorLinkSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   id?: boolean
   patientId?: boolean
   doctorId?: boolean
+  status?: boolean
   notified?: boolean
   linkedAt?: boolean
   patient?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -586,11 +628,12 @@ export type PatientDoctorLinkSelectScalar = {
   id?: boolean
   patientId?: boolean
   doctorId?: boolean
+  status?: boolean
   notified?: boolean
   linkedAt?: boolean
 }
 
-export type PatientDoctorLinkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "patientId" | "doctorId" | "notified" | "linkedAt", ExtArgs["result"]["patientDoctorLink"]>
+export type PatientDoctorLinkOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "patientId" | "doctorId" | "status" | "notified" | "linkedAt", ExtArgs["result"]["patientDoctorLink"]>
 export type PatientDoctorLinkInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   patient?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   doctor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -614,6 +657,7 @@ export type $PatientDoctorLinkPayload<ExtArgs extends runtime.Types.Extensions.I
     id: string
     patientId: string
     doctorId: string
+    status: $Enums.LinkStatus
     notified: boolean
     linkedAt: Date
   }, ExtArgs["result"]["patientDoctorLink"]>
@@ -1044,6 +1088,7 @@ export interface PatientDoctorLinkFieldRefs {
   readonly id: Prisma.FieldRef<"PatientDoctorLink", 'String'>
   readonly patientId: Prisma.FieldRef<"PatientDoctorLink", 'String'>
   readonly doctorId: Prisma.FieldRef<"PatientDoctorLink", 'String'>
+  readonly status: Prisma.FieldRef<"PatientDoctorLink", 'LinkStatus'>
   readonly notified: Prisma.FieldRef<"PatientDoctorLink", 'Boolean'>
   readonly linkedAt: Prisma.FieldRef<"PatientDoctorLink", 'DateTime'>
 }

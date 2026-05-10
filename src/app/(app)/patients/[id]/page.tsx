@@ -4,6 +4,8 @@ import { redirect, notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { getGlucoseColor } from "@/lib/constants";
 import { GlucoseChart } from "@/components/patient/glucose-chart";
+import { StatsCharts } from "@/components/patient/stats-charts";
+import { PrescriptionTimeline } from "@/components/doctor/prescription-timeline";
 import type { GlucoseReading } from "@/generated/prisma/client";
 import { createServerT } from "@/lib/server-i18n";
 
@@ -43,6 +45,11 @@ export default async function PatientDetailPage({ params }: { params: Promise<{ 
               </div>
             ))}</div>}
       </div>
+      <div className="border-t pt-6">
+        <h2 className="text-lg font-semibold mb-4">Lab Results & Stats</h2>
+        <StatsCharts patientId={patientId} />
+      </div>
+      <PrescriptionTimeline doctorId={su.id} patientId={patientId} />
       <a href="/patients" className="text-blue-600 text-sm hover:underline inline-block">{t("doctor.backToDashboard")}</a>
     </div>
   );

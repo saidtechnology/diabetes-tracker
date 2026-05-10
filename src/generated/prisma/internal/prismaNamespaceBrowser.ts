@@ -17,8 +17,8 @@
 
 import * as runtime from "@prisma/client/runtime/index-browser"
 
-export type * from '../models.js'
-export type * from './prismaNamespace.js'
+export type * from '../models'
+export type * from './prismaNamespace'
 
 export const Decimal = runtime.Decimal
 
@@ -55,6 +55,7 @@ export const ModelName = {
   DoctorCode: 'DoctorCode',
   PatientDoctorLink: 'PatientDoctorLink',
   GlucoseReading: 'GlucoseReading',
+  Prescription: 'Prescription',
   VerificationCode: 'VerificationCode'
 } as const
 
@@ -107,6 +108,7 @@ export const PatientDoctorLinkScalarFieldEnum = {
   id: 'id',
   patientId: 'patientId',
   doctorId: 'doctorId',
+  status: 'status',
   notified: 'notified',
   linkedAt: 'linkedAt'
 } as const
@@ -117,6 +119,7 @@ export type PatientDoctorLinkScalarFieldEnum = (typeof PatientDoctorLinkScalarFi
 export const GlucoseReadingScalarFieldEnum = {
   id: 'id',
   patientId: 'patientId',
+  readingType: 'readingType',
   value: 'value',
   measuredAt: 'measuredAt',
   mealContext: 'mealContext',
@@ -127,6 +130,18 @@ export const GlucoseReadingScalarFieldEnum = {
 } as const
 
 export type GlucoseReadingScalarFieldEnum = (typeof GlucoseReadingScalarFieldEnum)[keyof typeof GlucoseReadingScalarFieldEnum]
+
+
+export const PrescriptionScalarFieldEnum = {
+  id: 'id',
+  doctorId: 'doctorId',
+  patientId: 'patientId',
+  content: 'content',
+  createdAt: 'createdAt',
+  validUntil: 'validUntil'
+} as const
+
+export type PrescriptionScalarFieldEnum = (typeof PrescriptionScalarFieldEnum)[keyof typeof PrescriptionScalarFieldEnum]
 
 
 export const VerificationCodeScalarFieldEnum = {

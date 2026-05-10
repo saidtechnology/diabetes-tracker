@@ -39,8 +39,8 @@ export const email = {
   sendPatientLinked: async (doctorEmail: string, patientName: string) => {
     await getProvider().send({
       to: doctorEmail,
-      subject: "New patient linked to your account",
-      text: `A new patient has been linked.\n\nPatient: ${patientName}\n\nView readings in your dashboard.`,
+      subject: "New patient request - pending acceptance",
+      text: `A new patient has requested to link.\n\nPatient: ${patientName}\n\nPlease log in to accept or reject this request.`,
     });
   },
   sendDangerAlert: async (doctorEmail: string, details: string) => {

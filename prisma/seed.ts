@@ -63,6 +63,7 @@ async function main() {
     data: {
       patientId: patient.id,
       doctorId: doctor.id,
+      status: "ACCEPTED",
     },
   });
   console.log("Patient linked to doctor");

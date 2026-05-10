@@ -8,9 +8,10 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/User.js'
-export type * from './models/DoctorCode.js'
-export type * from './models/PatientDoctorLink.js'
-export type * from './models/GlucoseReading.js'
-export type * from './models/VerificationCode.js'
-export type * from './commonInputTypes.js'
+export type * from './models/User'
+export type * from './models/DoctorCode'
+export type * from './models/PatientDoctorLink'
+export type * from './models/GlucoseReading'
+export type * from './models/Prescription'
+export type * from './models/VerificationCode'
+export type * from './commonInputTypes'

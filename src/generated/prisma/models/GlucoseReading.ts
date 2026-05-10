@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums.js"
-import type * as Prisma from "../internal/prismaNamespace.js"
+import type * as $Enums from "../enums"
+import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model GlucoseReading
@@ -37,6 +37,7 @@ export type GlucoseReadingSumAggregateOutputType = {
 export type GlucoseReadingMinAggregateOutputType = {
   id: string | null
   patientId: string | null
+  readingType: $Enums.ReadingType | null
   value: number | null
   measuredAt: Date | null
   mealContext: $Enums.MealContext | null
@@ -49,6 +50,7 @@ export type GlucoseReadingMinAggregateOutputType = {
 export type GlucoseReadingMaxAggregateOutputType = {
   id: string | null
   patientId: string | null
+  readingType: $Enums.ReadingType | null
   value: number | null
   measuredAt: Date | null
   mealContext: $Enums.MealContext | null
@@ -61,6 +63,7 @@ export type GlucoseReadingMaxAggregateOutputType = {
 export type GlucoseReadingCountAggregateOutputType = {
   id: number
   patientId: number
+  readingType: number
   value: number
   measuredAt: number
   mealContext: number
@@ -83,6 +86,7 @@ export type GlucoseReadingSumAggregateInputType = {
 export type GlucoseReadingMinAggregateInputType = {
   id?: true
   patientId?: true
+  readingType?: true
   value?: true
   measuredAt?: true
   mealContext?: true
@@ -95,6 +99,7 @@ export type GlucoseReadingMinAggregateInputType = {
 export type GlucoseReadingMaxAggregateInputType = {
   id?: true
   patientId?: true
+  readingType?: true
   value?: true
   measuredAt?: true
   mealContext?: true
@@ -107,6 +112,7 @@ export type GlucoseReadingMaxAggregateInputType = {
 export type GlucoseReadingCountAggregateInputType = {
   id?: true
   patientId?: true
+  readingType?: true
   value?: true
   measuredAt?: true
   mealContext?: true
@@ -206,6 +212,7 @@ export type GlucoseReadingGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
 export type GlucoseReadingGroupByOutputType = {
   id: string
   patientId: string
+  readingType: $Enums.ReadingType
   value: number
   measuredAt: Date
   mealContext: $Enums.MealContext
@@ -241,6 +248,7 @@ export type GlucoseReadingWhereInput = {
   NOT?: Prisma.GlucoseReadingWhereInput | Prisma.GlucoseReadingWhereInput[]
   id?: Prisma.StringFilter<"GlucoseReading"> | string
   patientId?: Prisma.StringFilter<"GlucoseReading"> | string
+  readingType?: Prisma.EnumReadingTypeFilter<"GlucoseReading"> | $Enums.ReadingType
   value?: Prisma.FloatFilter<"GlucoseReading"> | number
   measuredAt?: Prisma.DateTimeFilter<"GlucoseReading"> | Date | string
   mealContext?: Prisma.EnumMealContextFilter<"GlucoseReading"> | $Enums.MealContext
@@ -254,6 +262,7 @@ export type GlucoseReadingWhereInput = {
 export type GlucoseReadingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
+  readingType?: Prisma.SortOrder
   value?: Prisma.SortOrder
   measuredAt?: Prisma.SortOrder
   mealContext?: Prisma.SortOrder
@@ -270,6 +279,7 @@ export type GlucoseReadingWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.GlucoseReadingWhereInput[]
   NOT?: Prisma.GlucoseReadingWhereInput | Prisma.GlucoseReadingWhereInput[]
   patientId?: Prisma.StringFilter<"GlucoseReading"> | string
+  readingType?: Prisma.EnumReadingTypeFilter<"GlucoseReading"> | $Enums.ReadingType
   value?: Prisma.FloatFilter<"GlucoseReading"> | number
   measuredAt?: Prisma.DateTimeFilter<"GlucoseReading"> | Date | string
   mealContext?: Prisma.EnumMealContextFilter<"GlucoseReading"> | $Enums.MealContext
@@ -283,6 +293,7 @@ export type GlucoseReadingWhereUniqueInput = Prisma.AtLeast<{
 export type GlucoseReadingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
+  readingType?: Prisma.SortOrder
   value?: Prisma.SortOrder
   measuredAt?: Prisma.SortOrder
   mealContext?: Prisma.SortOrder
@@ -303,6 +314,7 @@ export type GlucoseReadingScalarWhereWithAggregatesInput = {
   NOT?: Prisma.GlucoseReadingScalarWhereWithAggregatesInput | Prisma.GlucoseReadingScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"GlucoseReading"> | string
   patientId?: Prisma.StringWithAggregatesFilter<"GlucoseReading"> | string
+  readingType?: Prisma.EnumReadingTypeWithAggregatesFilter<"GlucoseReading"> | $Enums.ReadingType
   value?: Prisma.FloatWithAggregatesFilter<"GlucoseReading"> | number
   measuredAt?: Prisma.DateTimeWithAggregatesFilter<"GlucoseReading"> | Date | string
   mealContext?: Prisma.EnumMealContextWithAggregatesFilter<"GlucoseReading"> | $Enums.MealContext
@@ -314,6 +326,7 @@ export type GlucoseReadingScalarWhereWithAggregatesInput = {
 
 export type GlucoseReadingCreateInput = {
   id?: string
+  readingType?: $Enums.ReadingType
   value: number
   measuredAt: Date | string
   mealContext: $Enums.MealContext
@@ -327,6 +340,7 @@ export type GlucoseReadingCreateInput = {
 export type GlucoseReadingUncheckedCreateInput = {
   id?: string
   patientId: string
+  readingType?: $Enums.ReadingType
   value: number
   measuredAt: Date | string
   mealContext: $Enums.MealContext
@@ -338,6 +352,7 @@ export type GlucoseReadingUncheckedCreateInput = {
 
 export type GlucoseReadingUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  readingType?: Prisma.EnumReadingTypeFieldUpdateOperationsInput | $Enums.ReadingType
   value?: Prisma.FloatFieldUpdateOperationsInput | number
   measuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mealContext?: Prisma.EnumMealContextFieldUpdateOperationsInput | $Enums.MealContext
@@ -351,6 +366,7 @@ export type GlucoseReadingUpdateInput = {
 export type GlucoseReadingUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.StringFieldUpdateOperationsInput | string
+  readingType?: Prisma.EnumReadingTypeFieldUpdateOperationsInput | $Enums.ReadingType
   value?: Prisma.FloatFieldUpdateOperationsInput | number
   measuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mealContext?: Prisma.EnumMealContextFieldUpdateOperationsInput | $Enums.MealContext
@@ -363,6 +379,7 @@ export type GlucoseReadingUncheckedUpdateInput = {
 export type GlucoseReadingCreateManyInput = {
   id?: string
   patientId: string
+  readingType?: $Enums.ReadingType
   value: number
   measuredAt: Date | string
   mealContext: $Enums.MealContext
@@ -374,6 +391,7 @@ export type GlucoseReadingCreateManyInput = {
 
 export type GlucoseReadingUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  readingType?: Prisma.EnumReadingTypeFieldUpdateOperationsInput | $Enums.ReadingType
   value?: Prisma.FloatFieldUpdateOperationsInput | number
   measuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mealContext?: Prisma.EnumMealContextFieldUpdateOperationsInput | $Enums.MealContext
@@ -386,6 +404,7 @@ export type GlucoseReadingUpdateManyMutationInput = {
 export type GlucoseReadingUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   patientId?: Prisma.StringFieldUpdateOperationsInput | string
+  readingType?: Prisma.EnumReadingTypeFieldUpdateOperationsInput | $Enums.ReadingType
   value?: Prisma.FloatFieldUpdateOperationsInput | number
   measuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mealContext?: Prisma.EnumMealContextFieldUpdateOperationsInput | $Enums.MealContext
@@ -408,6 +427,7 @@ export type GlucoseReadingOrderByRelationAggregateInput = {
 export type GlucoseReadingCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
+  readingType?: Prisma.SortOrder
   value?: Prisma.SortOrder
   measuredAt?: Prisma.SortOrder
   mealContext?: Prisma.SortOrder
@@ -424,6 +444,7 @@ export type GlucoseReadingAvgOrderByAggregateInput = {
 export type GlucoseReadingMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
+  readingType?: Prisma.SortOrder
   value?: Prisma.SortOrder
   measuredAt?: Prisma.SortOrder
   mealContext?: Prisma.SortOrder
@@ -436,6 +457,7 @@ export type GlucoseReadingMaxOrderByAggregateInput = {
 export type GlucoseReadingMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   patientId?: Prisma.SortOrder
+  readingType?: Prisma.SortOrder
   value?: Prisma.SortOrder
   measuredAt?: Prisma.SortOrder
   mealContext?: Prisma.SortOrder
@@ -491,6 +513,10 @@ export type GlucoseReadingUncheckedUpdateManyWithoutPatientNestedInput = {
   deleteMany?: Prisma.GlucoseReadingScalarWhereInput | Prisma.GlucoseReadingScalarWhereInput[]
 }
 
+export type EnumReadingTypeFieldUpdateOperationsInput = {
+  set?: $Enums.ReadingType
+}
+
 export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -513,6 +539,7 @@ export type EnumSourceFieldUpdateOperationsInput = {
 
 export type GlucoseReadingCreateWithoutPatientInput = {
   id?: string
+  readingType?: $Enums.ReadingType
   value: number
   measuredAt: Date | string
   mealContext: $Enums.MealContext
@@ -524,6 +551,7 @@ export type GlucoseReadingCreateWithoutPatientInput = {
 
 export type GlucoseReadingUncheckedCreateWithoutPatientInput = {
   id?: string
+  readingType?: $Enums.ReadingType
   value: number
   measuredAt: Date | string
   mealContext: $Enums.MealContext
@@ -565,6 +593,7 @@ export type GlucoseReadingScalarWhereInput = {
   NOT?: Prisma.GlucoseReadingScalarWhereInput | Prisma.GlucoseReadingScalarWhereInput[]
   id?: Prisma.StringFilter<"GlucoseReading"> | string
   patientId?: Prisma.StringFilter<"GlucoseReading"> | string
+  readingType?: Prisma.EnumReadingTypeFilter<"GlucoseReading"> | $Enums.ReadingType
   value?: Prisma.FloatFilter<"GlucoseReading"> | number
   measuredAt?: Prisma.DateTimeFilter<"GlucoseReading"> | Date | string
   mealContext?: Prisma.EnumMealContextFilter<"GlucoseReading"> | $Enums.MealContext
@@ -576,6 +605,7 @@ export type GlucoseReadingScalarWhereInput = {
 
 export type GlucoseReadingCreateManyPatientInput = {
   id?: string
+  readingType?: $Enums.ReadingType
   value: number
   measuredAt: Date | string
   mealContext: $Enums.MealContext
@@ -587,6 +617,7 @@ export type GlucoseReadingCreateManyPatientInput = {
 
 export type GlucoseReadingUpdateWithoutPatientInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  readingType?: Prisma.EnumReadingTypeFieldUpdateOperationsInput | $Enums.ReadingType
   value?: Prisma.FloatFieldUpdateOperationsInput | number
   measuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mealContext?: Prisma.EnumMealContextFieldUpdateOperationsInput | $Enums.MealContext
@@ -598,6 +629,7 @@ export type GlucoseReadingUpdateWithoutPatientInput = {
 
 export type GlucoseReadingUncheckedUpdateWithoutPatientInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  readingType?: Prisma.EnumReadingTypeFieldUpdateOperationsInput | $Enums.ReadingType
   value?: Prisma.FloatFieldUpdateOperationsInput | number
   measuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mealContext?: Prisma.EnumMealContextFieldUpdateOperationsInput | $Enums.MealContext
@@ -609,6 +641,7 @@ export type GlucoseReadingUncheckedUpdateWithoutPatientInput = {
 
 export type GlucoseReadingUncheckedUpdateManyWithoutPatientInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  readingType?: Prisma.EnumReadingTypeFieldUpdateOperationsInput | $Enums.ReadingType
   value?: Prisma.FloatFieldUpdateOperationsInput | number
   measuredAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mealContext?: Prisma.EnumMealContextFieldUpdateOperationsInput | $Enums.MealContext
@@ -623,6 +656,7 @@ export type GlucoseReadingUncheckedUpdateManyWithoutPatientInput = {
 export type GlucoseReadingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   patientId?: boolean
+  readingType?: boolean
   value?: boolean
   measuredAt?: boolean
   mealContext?: boolean
@@ -636,6 +670,7 @@ export type GlucoseReadingSelect<ExtArgs extends runtime.Types.Extensions.Intern
 export type GlucoseReadingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   patientId?: boolean
+  readingType?: boolean
   value?: boolean
   measuredAt?: boolean
   mealContext?: boolean
@@ -649,6 +684,7 @@ export type GlucoseReadingSelectCreateManyAndReturn<ExtArgs extends runtime.Type
 export type GlucoseReadingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   patientId?: boolean
+  readingType?: boolean
   value?: boolean
   measuredAt?: boolean
   mealContext?: boolean
@@ -662,6 +698,7 @@ export type GlucoseReadingSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
 export type GlucoseReadingSelectScalar = {
   id?: boolean
   patientId?: boolean
+  readingType?: boolean
   value?: boolean
   measuredAt?: boolean
   mealContext?: boolean
@@ -671,7 +708,7 @@ export type GlucoseReadingSelectScalar = {
   recordedAt?: boolean
 }
 
-export type GlucoseReadingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "patientId" | "value" | "measuredAt" | "mealContext" | "mealType" | "source" | "imageUrl" | "recordedAt", ExtArgs["result"]["glucoseReading"]>
+export type GlucoseReadingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "patientId" | "readingType" | "value" | "measuredAt" | "mealContext" | "mealType" | "source" | "imageUrl" | "recordedAt", ExtArgs["result"]["glucoseReading"]>
 export type GlucoseReadingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   patient?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -690,6 +727,7 @@ export type $GlucoseReadingPayload<ExtArgs extends runtime.Types.Extensions.Inte
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     patientId: string
+    readingType: $Enums.ReadingType
     value: number
     measuredAt: Date
     mealContext: $Enums.MealContext
@@ -1123,6 +1161,7 @@ export interface Prisma__GlucoseReadingClient<T, Null = never, ExtArgs extends r
 export interface GlucoseReadingFieldRefs {
   readonly id: Prisma.FieldRef<"GlucoseReading", 'String'>
   readonly patientId: Prisma.FieldRef<"GlucoseReading", 'String'>
+  readonly readingType: Prisma.FieldRef<"GlucoseReading", 'ReadingType'>
   readonly value: Prisma.FieldRef<"GlucoseReading", 'Float'>
   readonly measuredAt: Prisma.FieldRef<"GlucoseReading", 'DateTime'>
   readonly mealContext: Prisma.FieldRef<"GlucoseReading", 'MealContext'>

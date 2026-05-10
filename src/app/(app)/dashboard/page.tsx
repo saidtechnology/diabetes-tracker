@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { GlucoseChart } from "@/components/patient/glucose-chart";
+import { StatsCharts } from "@/components/patient/stats-charts";
 import type { GlucoseReading } from "@/generated/prisma/client";
 import { createServerT } from "@/lib/server-i18n";
 
@@ -15,6 +16,7 @@ export default async function DashboardPage() {
   if (su.role === "DOCTOR") {
     const doctorCode = await prisma.doctorCode.findFirst({ where: { doctorId: su.id, isUsed: false } });
     const patientCount = await prisma.patientDoctorLink.count({ where: { doctorId: su.id } });
+    const pendingCount = await prisma.patientDoctorLink.count({ where: { doctorId: su.id, status: "PENDING" } });
 
     return (
       <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -24,10 +26,17 @@ export default async function DashboardPage() {
           <p className="text-3xl font-mono tracking-widest text-blue-600">{doctorCode?.code ?? t("doctor.generateNewCode")}</p>
           <p className="text-xs text-gray-400 mt-2">{t("doctor.codeHint")}</p>
         </div>
-        <div className="bg-white border rounded-xl p-6">
-          <h2 className="text-lg font-semibold mb-2">{t("doctor.linkedPatients")}</h2>
-          <p className="text-3xl font-bold">{patientCount}</p>
-          <p className="text-sm text-gray-500">{t("doctor.totalPatients")}</p>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-white border rounded-xl p-6">
+            <h2 className="text-lg font-semibold mb-2">{t("doctor.linkedPatients")}</h2>
+            <p className="text-3xl font-bold">{patientCount}</p>
+            <p className="text-sm text-gray-500">{t("doctor.totalPatients")}</p>
+          </div>
+          <div className="bg-white border rounded-xl p-6">
+            <h2 className="text-lg font-semibold mb-2">Pending Requests</h2>
+            <p className={`text-3xl font-bold ${pendingCount > 0 ? "text-amber-500" : ""}`}>{pendingCount}</p>
+            <p className="text-sm text-gray-500">awaiting approval</p>
+          </div>
         </div>
         <div className="flex gap-3">
           <a href="/patients" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">{t("doctor.viewPatients")}</a>
@@ -40,6 +49,7 @@ export default async function DashboardPage() {
   const recentReadings = await prisma.glucoseReading.findMany({ where: { patientId: su.id }, orderBy: { measuredAt: "desc" }, take: 20 });
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const todayReadings = await prisma.glucoseReading.count({ where: { patientId: su.id, measuredAt: { gte: today } } });
+  const prescriptions = await prisma.prescription.findMany({ where: { patientId: su.id }, orderBy: { createdAt: "desc" }, take: 10 });
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -55,6 +65,23 @@ export default async function DashboardPage() {
         <a href="/measurements/camera" className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200">{t("patient.scanMeter")}</a>
         <a href="/settings" className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200">{t("patient.settings")}</a>
       </div>
+      <div className="border-t pt-6">
+        <h2 className="text-lg font-semibold mb-4">Lab Results & Stats</h2>
+        <StatsCharts />
+      </div>
+      {prescriptions.length > 0 && (
+        <div className="bg-white border rounded-xl p-6">
+          <h2 className="text-lg font-semibold mb-4">Recent Prescriptions</h2>
+          <div className="space-y-3">
+            {prescriptions.map((p) => (
+              <div key={p.id} className="p-3 rounded-lg bg-gray-50">
+                <p className="text-sm whitespace-pre-wrap">{p.content}</p>
+                <p className="text-xs text-gray-400 mt-1">{new Date(p.createdAt).toLocaleDateString()}{p.validUntil ? ` · Valid until ${new Date(p.validUntil).toLocaleDateString()}` : ""}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

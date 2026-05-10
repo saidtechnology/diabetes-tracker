@@ -15,7 +15,7 @@ export function LanguageSwitcher() {
     <select
       value={locale}
       onChange={(e) => setLocale(e.target.value as "en" | "ar" | "fr")}
-      className="text-xs border rounded px-1 py-0.5 bg-white text-gray-600"
+      className="text-xs border border-slate-200 rounded-lg px-2 py-1 bg-white text-slate-500 focus:ring-2 focus:ring-primary-200 focus:border-primary-400 outline-none transition-all duration-200"
     >
       {locales.map((l) => (
         <option key={l.code} value={l.code}>{l.label}</option>

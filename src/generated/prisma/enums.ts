@@ -41,3 +41,21 @@ export const Source = {
 } as const
 
 export type Source = (typeof Source)[keyof typeof Source]
+
+
+export const ReadingType = {
+  GLUCOSE: 'GLUCOSE',
+  HBA1C: 'HBA1C',
+  TRIGLYCERIDE: 'TRIGLYCERIDE'
+} as const
+
+export type ReadingType = (typeof ReadingType)[keyof typeof ReadingType]
+
+
+export const LinkStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type LinkStatus = (typeof LinkStatus)[keyof typeof LinkStatus]
