@@ -1,20 +1,18 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
+import enMessages from "../../messages/en.json";
+import arMessages from "../../messages/ar.json";
+import frMessages from "../../messages/fr.json";
 
 type Locale = "en" | "ar" | "fr";
 type MessagesData = Record<string, unknown>;
-const cache: Record<Locale, MessagesData> = { en: {}, ar: {}, fr: {} };
 
-async function loadMessages(locale: Locale): Promise<MessagesData> {
-  if (Object.keys(cache[locale]).length > 0) return cache[locale];
-  let data: { default: MessagesData };
-  if (locale === "ar") data = await import("../../messages/ar.json");
-  else if (locale === "fr") data = await import("../../messages/fr.json");
-  else data = await import("../../messages/en.json");
-  cache[locale] = data.default;
-  return cache[locale];
-}
+const allMessages: Record<Locale, MessagesData> = {
+  en: enMessages as MessagesData,
+  ar: arMessages as MessagesData,
+  fr: frMessages as MessagesData,
+};
 
 type I18nContextType = { locale: Locale; setLocale: (l: Locale) => void; t: (key: string, vars?: Record<string, string>) => string; dir: "ltr" | "rtl" };
 const I18nContext = createContext<I18nContextType>({ locale: "en", setLocale: () => {}, t: (k: string) => k, dir: "ltr" });
@@ -39,8 +37,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const saved = (typeof window !== "undefined" ? (localStorage.getItem("locale") as Locale | null) : null) || getCookie("locale") as Locale | null;
-    const initial = saved || "en";
-    loadMessages(initial).then(() => { setLocaleState(initial); setReady(true); });
+    setLocaleState(saved || "en");
+    setReady(true);
   }, []);
 
   function setLocaleCookie(l: Locale) {
@@ -48,14 +46,20 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }
 
   const setLocale = useCallback((l: Locale) => {
-    loadMessages(l).then(() => { setLocaleState(l); if (typeof window !== "undefined") { localStorage.setItem("locale", l); setLocaleCookie(l); } });
+    setLocaleState(l);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("locale", l);
+      setLocaleCookie(l);
+    }
   }, []);
 
   const t = useCallback((key: string, vars?: Record<string, string>): string => {
+    const current = allMessages[locale];
+    const fallback = allMessages["en"];
     const parts = key.split(".");
-    let result = getNestedValue(cache[locale], parts);
-    if (!result) result = getNestedValue(cache["en"], parts) ?? key;
-    if (vars) for (const [k, v] of Object.entries(vars)) result = result.replace(`{${k}}`, v);
+    let result = getNestedValue(current, parts);
+    if (!result) result = getNestedValue(fallback, parts) ?? key;
+    if (vars && result) for (const [k, v] of Object.entries(vars)) result = result.replace(`{${k}}`, v);
     return result;
   }, [locale]);
 
