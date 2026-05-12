@@ -10,9 +10,10 @@ export default function VerifyPage() {
   const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const identifier = searchParams.get("phone") || searchParams.get("email") || "";
+  const identifierParam = searchParams.get("phone") || searchParams.get("email") || "";
   const method = (searchParams.get("method") || "phone") as "phone" | "email";
   const tokenFromUrl = searchParams.get("token") || "";
+  const [manualIdentifier, setManualIdentifier] = useState(identifierParam);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [doctorCode, setDoctorCode] = useState("");
   const [error, setError] = useState("");
@@ -24,6 +25,8 @@ export default function VerifyPage() {
   const confirmationRef = useRef<ConfirmationResult | null>(null);
   const recaptchaRef = useRef<HTMLDivElement>(null);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const identifier = manualIdentifier || identifierParam;
 
   useEffect(() => {
     if (method === "email" && tokenFromUrl) {
@@ -130,7 +133,18 @@ export default function VerifyPage() {
   }
 
   if (!identifier && method !== "email") {
-    return <div className="min-h-screen flex items-center justify-center"><p className="text-gray-500">{t("common.noPhone")}</p></div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+        <div className="w-full max-w-md space-y-4 bg-white p-8 rounded-xl shadow-sm text-center">
+          <h1 className="text-2xl font-bold">{t("auth.verifyPhoneTitle")}</h1>
+          <p className="text-sm text-gray-500">{t("auth.enterPhoneNumber")}</p>
+          <input type="tel" value={manualIdentifier} onChange={(e) => setManualIdentifier(e.target.value)} placeholder={t("auth.phonePlaceholder")} className="w-full border rounded-lg px-3 py-2 text-sm" />
+          <button onClick={() => setManualIdentifier(manualIdentifier)} disabled={!manualIdentifier} className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50">
+            {t("common.continue")}
+          </button>
+        </div>
+      </div>
+    );
   }
 
   if (verified) {

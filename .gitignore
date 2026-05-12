@@ -8,3 +8,4 @@ dist/
 *.zip
 *.tar.gz
 .vercel
+firebase-service-account.json

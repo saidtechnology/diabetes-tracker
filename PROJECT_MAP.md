@@ -7,6 +7,7 @@
 - **Framework:** Next.js 16.2.6 (App Router, Webpack)
 - **Language:** TypeScript 5, React 19
 - **Database:** PostgreSQL 18 via Prisma 7.8 (with @prisma/adapter-pg)
+- **Production DB:** Supabase Serverless PostgreSQL (session pooler :6543)
 - **Auth:** Next-Auth v4.24.14 (Credentials Provider, JWT)
 - **Styling:** Tailwind CSS v4
 - **OCR:** Tesseract.js v7
@@ -16,6 +17,7 @@
 - **i18n:** Custom React Context + Server i18n (ar/fr/en)
 - **Firebase:** Firebase Client SDK + Firebase Admin SDK
 - **Container:** Docker Compose (PostgreSQL)
+- **Deployment:** Vercel (production + preview), GitHub (source)
 
 ## Directory Structure
 
@@ -91,7 +93,15 @@ diabetes-tracker/
 └── README.md
 ```
 
-## Database Schema (5 Models)
+## Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0.0 | - | Initial release: auth, measurements, doctor-patient linking |
+| 1.1.0 | - | i18n, Firebase OTP, email verification, verification method choice |
+| 1.2.0 | 2026-05-13 | Production deployment, Supabase DB, Firebase Admin SDK, re-registration fix, verify page fallback |
+
+## Database Schema (6 Models)
 
 ### User
 | Field | Type | Notes |
@@ -168,12 +178,20 @@ diabetes-tracker/
 
 ## Auth Flow
 1. Register → Choose verification method: Email or Phone (OTP)
-2. Email: Send verification link → User clicks link → Set phoneVerified=true
-3. Phone (Twilio): Send OTP via SMS → User enters OTP → Verify → Set phoneVerified=true
-4. Phone (Firebase): Firebase sends SMS → User enters OTP → Firebase confirms → Backend verifies ID token → Set phoneVerified=true
-5. Login only if phoneVerified=true
-6. Next-Auth JWT strategy with custom role in token
-7. Middleware protects /dashboard, /measurements, /settings, /patients
+2. If user exists but `phoneVerified=false`, update their info and re-send OTP (instead of "already registered")
+3. Email: Send verification link → User clicks link → Set phoneVerified=true
+4. Phone (Server OTP): Generate OTP, store in DB, send via Twilio/mock → User enters OTP → Verify → Set phoneVerified=true
+5. Phone (Firebase): Firebase sends SMS via `signInWithPhoneNumber` → User enters OTP → Firebase confirms → Backend verifies ID token via Firebase Admin SDK → Set phoneVerified=true
+6. Login only if phoneVerified=true
+7. Next-Auth JWT strategy with custom role in token
+8. Middleware protects /dashboard, /measurements, /settings, /patients
+
+## Deployment
+- **Production URL:** https://diabetes-tracker-saidtechnology.vercel.app
+- **Database:** Supabase PostgreSQL (session pooler, `?pgbouncer=true`)
+- **Environment variables on Vercel:** DATABASE_URL, NEXTAUTH_URL, NEXTAUTH_SECRET, NEXT_PUBLIC_FIREBASE_* (7 vars), FIREBASE_SERVICE_ACCOUNT
+- **Firebase Service Account:** Loaded from `FIREBASE_SERVICE_ACCOUNT` env var, with fallback to `firebase-service-account.json` (gitignored)
+- **Vercel Deploy:** `vercel deploy --prod --archive=tgz` (token-based, no GitHub integration)
 
 ## Danger Alert System
 - 3 consecutive readings >250 mg/dL within 24h window
