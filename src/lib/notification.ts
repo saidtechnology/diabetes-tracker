@@ -13,7 +13,7 @@ const resendProvider = {
       const { Resend } = await import("resend");
       const resend = new Resend(apiKey);
       await resend.emails.send({
-        from: "Diabetes Tracker <noreply@diabetes-tracker.app>",
+        from: "🩸 Diabetes Tracker <noreply@diabetes-tracker.app>",
         to: payload.to,
         subject: payload.subject,
         text: payload.text,
@@ -55,7 +55,7 @@ export const email = {
     const link = `${baseUrl}/verify?email=${encodeURIComponent(to)}&method=email&token=${token}`;
     await getProvider().send({
       to,
-      subject: "Verify your email - Diabetes Tracker",
+      subject: "Verify your email - 🩸 Diabetes Tracker",
       text: `Click the link to verify your email: ${link}\n\nThis link expires in 10 minutes.`,
     });
   },

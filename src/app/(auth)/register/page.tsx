@@ -41,13 +41,9 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-surface-dim px-4 py-8">
       <div className="w-full max-w-md animate-scale-in">
         <div className="text-center mb-8">
-          <div className="mx-auto w-12 h-12 bg-primary-100 rounded-2xl flex items-center justify-center mb-4">
-            <svg className="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-            </svg>
-          </div>
+          <span className="text-3xl mb-2 block" role="img" aria-label="blood drop">🩸</span>
           <h1 className="text-xl font-bold text-on-surface">{t("auth.register")}</h1>
-          <p className="text-sm text-on-surface-dim mt-1">Diabetes Tracker</p>
+          <p className="text-sm text-on-surface-dim mt-1">🩸 Diabetes Tracker</p>
         </div>
 
         <form onSubmit={handleSubmit} className="card space-y-4">
