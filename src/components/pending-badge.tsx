@@ -20,7 +20,7 @@ export function PendingBadge() {
 
   return (
     <a href="/patients" className="relative ml-1" title="Pending requests">
-      <span className="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[10px] font-bold rounded-full min-w-[16px] h-[16px] flex items-center justify-center px-0.5 shadow-sm">
+      <span className="badge-error min-w-[18px] h-[18px] text-[10px] absolute -top-2 -right-2 shadow-sm">
         {pendingCount > 9 ? "9+" : pendingCount}
       </span>
     </a>

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function RegisterPage() {
   const { t } = useTranslation();
@@ -36,36 +38,80 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4 bg-white p-8 rounded-xl shadow-sm">
-        <h1 className="text-2xl font-bold text-center">{t("auth.register")}</h1>
-        {error && <p className="text-sm text-red-600 bg-red-50 p-3 rounded-lg">{error}</p>}
-        <div className="flex gap-3">
-          <input className="w-1/2 border rounded-lg px-3 py-2 text-sm" placeholder={t("auth.firstName")} value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} required />
-          <input className="w-1/2 border rounded-lg px-3 py-2 text-sm" placeholder={t("auth.lastName")} value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} required />
-        </div>
-        <input className="w-full border rounded-lg px-3 py-2 text-sm" placeholder={t("auth.address")} value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} required />
-        <input className="w-full border rounded-lg px-3 py-2 text-sm" type="email" placeholder={t("auth.emailPlaceholder")} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-        <input className="w-full border rounded-lg px-3 py-2 text-sm" type="tel" placeholder={t("auth.phonePlaceholder")} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required />
-        <input className="w-full border rounded-lg px-3 py-2 text-sm" type="password" placeholder={t("auth.passwordMin")} minLength={6} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
-        <div className="flex gap-3">
-          <button type="button" className={`flex-1 py-2 rounded-lg text-sm font-medium ${form.role === "PATIENT" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600"}`} onClick={() => setForm({ ...form, role: "PATIENT" })}>{t("auth.iAmPatient")}</button>
-          <button type="button" className={`flex-1 py-2 rounded-lg text-sm font-medium ${form.role === "DOCTOR" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600"}`} onClick={() => setForm({ ...form, role: "DOCTOR" })}>{t("auth.iAmDoctor")}</button>
-        </div>
-        <div className="border-t pt-4">
-          <p className="text-sm font-medium mb-2">{t("auth.verifyMethod")}</p>
-          <div className="flex gap-3">
-            <button type="button" className={`flex-1 py-2 rounded-lg text-sm ${verifyMethod === "phone" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600"}`} onClick={() => setVerifyMethod("phone")}>{t("auth.verifyByPhone")}</button>
-            <button type="button" className={`flex-1 py-2 rounded-lg text-sm ${verifyMethod === "email" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600"}`} onClick={() => setVerifyMethod("email")}>{t("auth.verifyByEmail")}</button>
+    <div className="min-h-screen flex items-center justify-center bg-surface-dim px-4 py-8">
+      <div className="w-full max-w-md animate-scale-in">
+        <div className="text-center mb-8">
+          <div className="mx-auto w-12 h-12 bg-primary-100 rounded-2xl flex items-center justify-center mb-4">
+            <svg className="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+            </svg>
           </div>
+          <h1 className="text-xl font-bold text-on-surface">{t("auth.register")}</h1>
+          <p className="text-sm text-on-surface-dim mt-1">Diabetes Tracker</p>
         </div>
-        <button type="submit" disabled={loading} className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50">
-          {loading ? t("common.loading") : t("auth.register")}
-        </button>
-        <p className="text-sm text-center text-gray-500">
-          {t("auth.hasAccount")} <Link href="/login" className="text-blue-600 hover:underline">{t("auth.loginNow")}</Link>
-        </p>
-      </form>
+
+        <form onSubmit={handleSubmit} className="card space-y-4">
+          {error && <p className="text-xs text-error-500 bg-error-50 p-3 rounded-xl">{error}</p>}
+
+          <div className="flex gap-3">
+            <div className="flex-1">
+              <Input label={t("auth.firstName")} value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} required placeholder={t("auth.firstNamePlaceholder")} />
+            </div>
+            <div className="flex-1">
+              <Input label={t("auth.lastName")} value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} required placeholder={t("auth.lastNamePlaceholder")} />
+            </div>
+          </div>
+
+          <Input label={t("auth.address")} value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} required placeholder={t("auth.addressPlaceholder")} />
+
+          <Input label={t("auth.emailPlaceholder")} type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required placeholder="email@example.com" />
+
+          <Input label={t("auth.phonePlaceholder")} type="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required placeholder="+212600000000" />
+
+          <Input label={t("auth.passwordMin")} type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required placeholder="••••••" minLength={6} />
+
+          {/* Role Toggle */}
+          <div>
+            <p className="label mb-2">{t("auth.iAmPatient")}{" / "}{t("auth.iAmDoctor")}</p>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setForm({ ...form, role: "PATIENT" })}
+                className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${form.role === "PATIENT" ? "bg-primary-600 text-on-primary shadow-sm" : "bg-surface-container text-on-surface-dim hover:bg-surface-container-high"}`}>
+                {t("auth.iAmPatient")}
+              </button>
+              <button type="button" onClick={() => setForm({ ...form, role: "DOCTOR" })}
+                className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${form.role === "DOCTOR" ? "bg-secondary-600 text-on-secondary shadow-sm" : "bg-surface-container text-on-surface-dim hover:bg-surface-container-high"}`}>
+                {t("auth.iAmDoctor")}
+              </button>
+            </div>
+          </div>
+
+          {/* Verification Method */}
+          <div>
+            <p className="label mb-2">{t("auth.verifyMethod")}</p>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setVerifyMethod("phone")}
+                className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${verifyMethod === "phone" ? "bg-primary-600 text-on-primary shadow-sm" : "bg-surface-container text-on-surface-dim hover:bg-surface-container-high"}`}>
+                {t("auth.verifyByPhone")}
+              </button>
+              <button type="button" onClick={() => setVerifyMethod("email")}
+                className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 ${verifyMethod === "email" ? "bg-primary-600 text-on-primary shadow-sm" : "bg-surface-container text-on-surface-dim hover:bg-surface-container-high"}`}>
+                {t("auth.verifyByEmail")}
+              </button>
+            </div>
+          </div>
+
+          <Button type="submit" loading={loading} className="w-full">
+            {t("auth.register")}
+          </Button>
+
+          <p className="text-xs text-center text-on-surface-dim">
+            {t("auth.hasAccount")}{" "}
+            <Link href="/login" className="text-primary-600 font-medium hover:text-primary-700">
+              {t("auth.loginNow")}
+            </Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }
